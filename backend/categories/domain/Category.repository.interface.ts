@@ -1,4 +1,3 @@
-import { PageFilter, QueryFilter } from "../../utils/types";
 import { CategoryEntity } from "./Category.entity";
 
 export interface ICategoryRepository {
@@ -8,10 +7,7 @@ export interface ICategoryRepository {
 
   update(id: string, data: CategoryEntity): Promise<CategoryEntity>;
 
-  find(
-    pagination: PageFilter,
-    queryFilter?: QueryFilter
-  ): Promise<CategoryEntity[]>;
+  find(): Promise<CategoryEntity[]>;
 
   delete(id: string): Promise<void>;
 }

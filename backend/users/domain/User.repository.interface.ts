@@ -1,4 +1,3 @@
-import { PageFilter, QueryFilter } from "../../utils/types";
 import { UserEntity } from "./User.entity";
 
 export interface IUserRepository {
@@ -8,10 +7,7 @@ export interface IUserRepository {
 
   update(id: string, data: UserEntity): Promise<UserEntity>;
 
-  find(
-    pagination: PageFilter,
-    queryFilter?: QueryFilter
-  ): Promise<UserEntity[]>;
+  find(): Promise<UserEntity[]>;
 
   delete(id: string): Promise<void>;
 }
