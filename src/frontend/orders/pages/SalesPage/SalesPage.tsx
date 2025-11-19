@@ -37,7 +37,7 @@ const SalesPage = () => {
   async function fetchSales() {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:3000/api/sale");
+      const response = await fetch(`${process.env.BASE_PATH}api/sale`);
       if (response.ok) {
         const responseData = await response.json();
         setSales(responseData || []);
