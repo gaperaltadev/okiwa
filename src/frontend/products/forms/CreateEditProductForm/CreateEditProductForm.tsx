@@ -49,7 +49,7 @@ const CreateEditProductForm: FC<CreateEditProductFormProps> = (props) => {
         setLoading(true);
 
         if (product?.id) {
-          const response = await fetch("http://localhost:3000/api/product", {
+          const response = await fetch(`${process.env.BASE_PATH}api/product`, {
             method: "PUT",
             body: JSON.stringify({ id: product.id, ...values }),
           });
@@ -63,7 +63,7 @@ const CreateEditProductForm: FC<CreateEditProductFormProps> = (props) => {
             handleSuccess(createdProduct);
           }
         } else {
-          const response = await fetch("http://localhost:3000/api/product", {
+          const response = await fetch(`${process.env.BASE_PATH}api/product`, {
             method: "POST",
             body: JSON.stringify(values),
           });

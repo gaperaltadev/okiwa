@@ -35,7 +35,7 @@ export default function CategoriesPage() {
     try {
       setLoading(true);
 
-      const response = await fetch("http://localhost:3000/api/category");
+      const response = await fetch(`${process.env.BASE_PATH}api/category`);
       if (response.ok) {
         const responseData = await response.json();
         setCategories(responseData);
@@ -88,7 +88,7 @@ export default function CategoriesPage() {
     try {
       setLoading(true);
 
-      const response = await fetch("http://localhost:3000/api/category", {
+      const response = await fetch(`${process.env.BASE_PATH}api/category`, {
         method: "POST",
         body: JSON.stringify(values),
       });
