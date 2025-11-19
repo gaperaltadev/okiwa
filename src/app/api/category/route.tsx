@@ -8,7 +8,7 @@ export async function GET(request: Request) {
   try {
     await connectionToDatabase();
     const repo = new CategoryRepository();
-    const categorys = await repo.find({});
+    const categorys = await repo.find();
     console.log("categorys ", { categorys });
     return Response.json(categorys);
   } catch (err) {

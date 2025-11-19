@@ -1,4 +1,3 @@
-import { PageFilter, QueryFilter } from "../../utils/types";
 import { ClientEntity } from "./Client.entity";
 
 export interface IClientRepository {
@@ -8,10 +7,7 @@ export interface IClientRepository {
 
   update(id: string, data: ClientEntity): Promise<ClientEntity>;
 
-  find(
-    pagination: PageFilter,
-    queryFilter?: QueryFilter
-  ): Promise<ClientEntity[]>;
+  find(): Promise<ClientEntity[]>;
 
   delete(id: string): Promise<void>;
 }
