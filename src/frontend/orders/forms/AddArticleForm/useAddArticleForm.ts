@@ -5,6 +5,7 @@ import { validationSchema } from "./validationSchema";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ProductsApi } from "@/frontend/products";
 
 export type SelectOption = {
   value: string;
@@ -35,10 +36,10 @@ export const useAddArticleForm = ({
   async function fetchProductOptions() {
     try {
       setLoading(true);
-      const response = await fetch(`${process.env.BASE_PATH}api/product`);
-      if (response.ok) {
-        const responseData = await response.json();
-        setProducts(responseData || []);
+      const response = await ProductsApi.getProducts();
+      if (response.status === 200) {
+        const products = response.data;
+        setProducts(products || []);
       }
     } catch (error) {
       console.log("Error fetching products:", error);

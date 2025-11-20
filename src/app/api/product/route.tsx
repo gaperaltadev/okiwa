@@ -2,12 +2,17 @@ import connectionToDatabase from "../../../../backend/database/mongoose";
 import { ProductEntity } from "../../../../backend/products/domain/Product.entity";
 import { ProductRepository } from "../../../../backend/products/infra/Product.repository";
 
+export type GetProductsResponse = ProductEntity[];
+
 export async function GET() {
   try {
     await connectionToDatabase();
     const repo = new ProductRepository();
     const products = await repo.find();
-    return Response.json(products);
+
+    const response: GetProductsResponse = products;
+
+    return Response.json(response);
   } catch (err) {
     console.log("error on GET products", { err });
     return Response.json({

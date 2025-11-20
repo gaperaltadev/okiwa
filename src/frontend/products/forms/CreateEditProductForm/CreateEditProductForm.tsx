@@ -49,10 +49,13 @@ const CreateEditProductForm: FC<CreateEditProductFormProps> = (props) => {
         setLoading(true);
 
         if (product?.id) {
-          const response = await fetch(`${process.env.BASE_PATH}api/product`, {
-            method: "PUT",
-            body: JSON.stringify({ id: product.id, ...values }),
-          });
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_PATH}/api/product`,
+            {
+              method: "PUT",
+              body: JSON.stringify({ id: product.id, ...values }),
+            }
+          );
 
           if (response.ok) {
             const createdProduct: PostCreateProductResponse =
@@ -63,10 +66,13 @@ const CreateEditProductForm: FC<CreateEditProductFormProps> = (props) => {
             handleSuccess(createdProduct);
           }
         } else {
-          const response = await fetch(`${process.env.BASE_PATH}api/product`, {
-            method: "POST",
-            body: JSON.stringify(values),
-          });
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_PATH}/api/product`,
+            {
+              method: "POST",
+              body: JSON.stringify(values),
+            }
+          );
 
           if (response.ok) {
             const createdProduct: PostCreateProductResponse =

@@ -28,10 +28,13 @@ const DeleteProductModal: FC<DeleteProductModalProps> = (props) => {
 
     try {
       setLoading(true);
-      const response = await fetch(`{process.env.BASE_PATH}api/product`, {
-        method: "DELETE",
-        body: JSON.stringify({ productId: product.id }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_PATH}/api/product`,
+        {
+          method: "DELETE",
+          body: JSON.stringify({ productId: product.id }),
+        }
+      );
 
       if (response.ok) {
         setFormSuccess(true);

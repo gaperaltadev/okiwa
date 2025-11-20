@@ -23,11 +23,14 @@ const SignInPage = () => {
       router.push("/");
     } catch (error) {
       const { code } = error as FirebaseError;
-      console.log("Firebase error code:", code);
+
       if (code === "auth/invalid-credential") {
         setError("Credenciales inválidas");
       }
-      console.log("Error al iniciar sesión:", { error });
+
+      if (code === "auth/invalid-email") {
+        setError("Email inválido");
+      }
     } finally {
       setLoading(false);
     }
