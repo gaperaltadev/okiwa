@@ -37,7 +37,9 @@ const SalesPage = () => {
   async function fetchSales() {
     try {
       setLoading(true);
-      const response = await fetch(`${process.env.BASE_PATH}api/sale`);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_PATH}/api/sale`
+      );
       if (response.ok) {
         const responseData = await response.json();
         setSales(responseData || []);
@@ -68,7 +70,7 @@ const SalesPage = () => {
     <Box className="flex flex-col gap-6">
       <Toaster />
       <Box className="flex justify-between">
-        <Typography variant="h5">Pedidos</Typography>
+        <Typography variant="h5">Ventas</Typography>
         <Button
           color="info"
           variant="contained"

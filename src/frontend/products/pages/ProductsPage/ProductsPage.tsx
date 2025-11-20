@@ -17,6 +17,7 @@ import {
 import { Add, Delete, Edit } from "@mui/icons-material";
 import { DeleteProductModal } from "../../modals/DeleteProductModal";
 import { CreateEditProductModal } from "../../modals/CreateEditProductModal";
+import { ProductsApi } from "../..";
 
 export type ModalState<T> = {
   isOpen: boolean;
@@ -38,10 +39,11 @@ const ProductsPage = () => {
     try {
       setLoading(true);
 
-      const response = await fetch(`${process.env.BASE_PATH}api/product`);
-      if (response.ok) {
-        const responseData = await response.json();
-        setProducts(responseData);
+      const response = await ProductsApi.getProducts();
+
+      if (response.status === 200) {
+        const products = response.data;
+        setProducts(products);
       }
     } catch (err) {
       toast.error("Algo salió mal");

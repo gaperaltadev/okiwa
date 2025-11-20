@@ -35,7 +35,9 @@ export default function CategoriesPage() {
     try {
       setLoading(true);
 
-      const response = await fetch(`${process.env.BASE_PATH}api/category`);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_PATH}api/category`
+      );
       if (response.ok) {
         const responseData = await response.json();
         setCategories(responseData);
@@ -88,10 +90,13 @@ export default function CategoriesPage() {
     try {
       setLoading(true);
 
-      const response = await fetch(`${process.env.BASE_PATH}api/category`, {
-        method: "POST",
-        body: JSON.stringify(values),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_PATH}api/category`,
+        {
+          method: "POST",
+          body: JSON.stringify(values),
+        }
+      );
 
       if (response.ok) {
         const createdCategory: PostCreateCategoryResponse =

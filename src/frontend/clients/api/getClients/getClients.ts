@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from "axios";
 
 const getClients = async (): Promise<AxiosResponse<ResponseGetClients>> => {
   return await axios.get<ResponseGetClients>(
-    `${process.env.BASE_PATH}api/client`
+    `${process.env.NEXT_PUBLIC_BASE_PATH}/api/client`
   );
 };
 

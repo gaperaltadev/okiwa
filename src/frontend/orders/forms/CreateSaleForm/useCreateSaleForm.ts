@@ -55,7 +55,7 @@ export const useCreateSaleForm = ({
   });
 
   const values = getValues();
-  console.log('"Create sale form values ', { values });
+
   const formatNumber = (value: number) => {
     return Intl.NumberFormat("es-ES").format(value);
   };
