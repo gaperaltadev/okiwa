@@ -1,11 +1,17 @@
-import connectionToDatabase from "../../../../backend/database/mongoose";
-import { ClientEntity } from "../../../../backend/clients/domain/Client.entity";
-import { ClientRepository } from "../../../../backend/clients/infra/Client.repository";
+import connectionToDatabase from "../../backend/database/mongoose";
+import { ClientEntity } from "../../backend/clients/domain/Client.entity";
+import { ClientRepository } from "../../backend/clients/infra/Client.repository";
+import { ValidateRequestToken } from "@/app/common/useValidateRequestToken";
 
 export type ResponseGetClients = ClientEntity[];
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const isValid = await ValidateRequestToken(request);
+    if (!isValid) {
+      return Response.json({ message: "No autorizado" }, { status: 401 });
+    }
+
     await connectionToDatabase();
     const repo = new ClientRepository();
     const clients = await repo.find();
@@ -35,6 +41,11 @@ export type PostCreateClientResponse = ClientEntity;
 
 export async function POST(request: Request) {
   try {
+    const isValid = await ValidateRequestToken(request);
+    if (!isValid) {
+      return Response.json({ message: "No autorizado" }, { status: 401 });
+    }
+
     await connectionToDatabase();
 
     const body: PostCreateClientRequestBody = await request.json();

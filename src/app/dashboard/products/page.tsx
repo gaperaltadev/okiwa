@@ -1,10 +1,5 @@
-import { ProtectedRoute } from "@/app/common/ProtectedRoute";
-import { ProductsPage } from "@/frontend/products/pages/ProductsPage";
+import { ProductsPage } from "@/app/frontend/products/pages/ProductsPage";
 
-const Page = () => (
-  <ProtectedRoute>
-    <ProductsPage />
-  </ProtectedRoute>
-);
+const Page = () => <ProductsPage />;
 
 export default Page;

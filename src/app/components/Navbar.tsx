@@ -2,69 +2,59 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useCallback, useMemo } from "react";
-import { LocalOffer, ShoppingBag } from "@mui/icons-material";
-import useAuthStatus from "@/lib/firebase/hooks/useAuthStatus";
-import { Box, Button } from "@mui/material";
-import { signOut } from "firebase/auth";
-import { auth } from "@/lib/firebase/client";
+import { useMemo } from "react";
+import {
+  GroupOutlined,
+  HomeOutlined,
+  LocalOfferOutlined,
+  TrendingUpOutlined,
+} from "@mui/icons-material";
 
 export const Navbar = () => {
   const pathname = usePathname();
-  const authStatus = useAuthStatus();
-
-  // console.log("Auth status in Navbar:", { authStatus });
 
   const paths = useMemo(
     () => [
       {
+        label: "Inicio",
+        icon: <HomeOutlined fontSize="small" />,
+        href: "/",
+      },
+      {
         label: "Productos",
-        icon: <LocalOffer fontSize="small" />,
+        icon: <LocalOfferOutlined fontSize="small" />,
         href: "/dashboard/products",
       },
       {
         label: "Ventas",
-        icon: <ShoppingBag fontSize="small" />,
+        icon: <TrendingUpOutlined fontSize="small" />,
         href: "/dashboard/sales",
+      },
+      {
+        label: "Usuarios",
+        icon: <GroupOutlined fontSize="small" />,
+        href: "/admin/users",
       },
     ],
     []
   );
 
-  const handleSignOut = useCallback(() => {
-    signOut(auth);
-  }, []);
-
   return (
-    <Box className="flex justify-between p-4 bg-gradient-to-b from-gray-200 to-gray-50 text-white">
-      <Box className="flex gap-2">
+    <div className={`${pathname === "/sign-in" ? "hidden" : "flex"}`}>
+      <div className="flex gap-2 p-4">
         {paths.map((path, idx) => (
           <Link key={`${path.label}-${idx}`} href={path.href}>
-            <Box
-              className={`flex gap-2 items-center border px-2 rounded ${
-                pathname === path.href ? "text-black" : "text-gray-400"
+            <div
+              className={`grid gap-2 rounded-xl px-4 py-2 ${
+                pathname === path.href ? "bg-black text-white" : ""
               }`}
             >
               {path.icon}
-              {path.label}
-            </Box>
+              <p className="font-bold text-lg">{path.label}</p>
+            </div>
           </Link>
         ))}
-      </Box>
-      <Box>
-        {authStatus.user ? (
-          <Button
-            variant="outlined"
-            size="small"
-            color="error"
-            onClick={handleSignOut}
-          >
-            Cerrar sesión
-          </Button>
-        ) : (
-          <span className="text-red-600 font-medium">Iniciar sesión</span>
-        )}
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };

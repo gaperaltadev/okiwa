@@ -1,13 +1,14 @@
 import { Metadata } from "next";
-import { Montserrat } from "next/font/google";
+import { Nunito } from "next/font/google";
 import { AuthProvider } from "../context/AuthContext";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import TopBar from "./components/TopBar";
 import { Navbar } from "./components/Navbar";
 
-const montserrat = Montserrat({
+const nunito = Nunito({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["300", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -18,15 +19,16 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html>
-      <AuthProvider>
-        <body className={`${montserrat.className} antialiased h-[100vh]`}>
-          <Toaster />
-          <main className="h-full">
+      <body className={`${nunito.className} antialiased`}>
+        <Toaster />
+        <AuthProvider>
+          <main className="grid grid-rows-[auto_1fr_auto] h-screen">
+            <TopBar />
+            <div className="p-4 max-w-screen">{children}</div>
             <Navbar />
-            <div className="p-6">{children}</div>
           </main>
-        </body>
-      </AuthProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 };
