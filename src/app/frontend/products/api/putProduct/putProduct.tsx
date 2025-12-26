@@ -8,7 +8,7 @@ import { AxiosResponse } from "axios";
 const putProduct = async (
   payload: PutUpdateProductRequestBody
 ): Promise<AxiosResponse<PutUpdateProductResponse>> => {
-  return await instance.put<PutUpdateProductResponse>("/api/product", {
+  return await instance.put<PutUpdateProductResponse>("/api/products", {
     ...payload,
   });
 };

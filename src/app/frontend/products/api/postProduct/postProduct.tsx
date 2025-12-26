@@ -8,7 +8,7 @@ import { AxiosResponse } from "axios";
 const postProduct = async (
   payload: PostCreateProductRequestBody
 ): Promise<AxiosResponse<PostCreateProductResponse>> => {
-  return await instance.post<PostCreateProductResponse>("/api/product", {
+  return await instance.post<PostCreateProductResponse>("/api/products", {
     ...payload,
   });
 };
