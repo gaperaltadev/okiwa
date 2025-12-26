@@ -2,6 +2,7 @@ import { Document } from "mongoose";
 
 export interface ProductDocument extends Document {
   name: string;
+  userId: string;
   sku?: string;
   minStock?: number;
   currentStock?: number;

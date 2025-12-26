@@ -24,9 +24,16 @@ export type PostCreateSaleResponse = SaleEntity;
 
 export async function POST(request: Request) {
   try {
-    const isValid = await ValidateRequestToken(request);
+    const { isValid, userData } = await ValidateRequestToken(request);
     if (!isValid) {
       return Response.json({ message: "No autorizado" }, { status: 401 });
+    }
+
+    if (!userData?.id) {
+      return Response.json(
+        { message: "No autorizado - User data missing" },
+        { status: 401 }
+      );
     }
 
     await connectionToDatabase();
@@ -34,7 +41,10 @@ export async function POST(request: Request) {
     const body: PostCreateSaleRequestBody = await request.json();
 
     const repo = new SaleRepository();
-    const createdSale: PostCreateSaleResponse = await repo.create(body);
+    const createdSale: PostCreateSaleResponse = await repo.create(
+      body,
+      userData.id
+    );
 
     return Response.json(createdSale);
   } catch (err) {

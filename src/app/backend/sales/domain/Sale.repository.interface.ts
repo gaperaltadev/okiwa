@@ -2,7 +2,7 @@ import { ListParams } from "@/app/common/types";
 import { SaleEntity, PopulatedSaleEntity, ToPersistSale } from "./Sale.entity";
 
 export interface ISaleRepository {
-  create(sale: ToPersistSale): Promise<SaleEntity>;
+  create(sale: ToPersistSale, vendorId: string): Promise<SaleEntity>;
 
   getById(id: string): Promise<SaleEntity | null>;
 

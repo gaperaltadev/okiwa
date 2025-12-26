@@ -13,6 +13,7 @@ export type ArticleType = {
 
 export interface SaleEntity {
   id?: string;
+  vendorId: string;
   client: {
     id: string;
     name: string;

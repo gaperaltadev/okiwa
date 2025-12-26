@@ -10,18 +10,36 @@ export type ListSalesRequestBody = ListParams;
 
 export async function POST(request: Request) {
   try {
-    const isValid = await ValidateRequestToken(request);
+    const { isValid, userData } = await ValidateRequestToken(request);
     if (!isValid) {
       return Response.json({ message: "No autorizado" }, { status: 401 });
     }
 
+    if (!userData?.id) {
+      return Response.json(
+        { message: "No autorizado - User data missing" },
+        { status: 401 }
+      );
+    }
+
     const requestBody: ListSalesRequestBody = await request.json();
+
+    const listParams: ListParams = {
+      ...requestBody,
+      queryFilter: {
+        ...requestBody.queryFilter,
+        filters: [
+          ...(requestBody?.queryFilter?.filters || []),
+          { operator: "eq", field: "vendorId", value: userData?.id },
+        ],
+      },
+    };
 
     await connectionToDatabase();
 
     const repo = new SaleRepository();
-    const sales = await repo.find(requestBody);
-    const count = await repo.count(requestBody);
+    const sales = await repo.find(listParams);
+    const count = await repo.count(listParams);
 
     const totalPages = Math.ceil(count / (requestBody.limit || 10));
 

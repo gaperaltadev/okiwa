@@ -16,11 +16,14 @@ export class ProductRepository implements IProductRepository {
       { $count: "total" },
     ];
     const [result] = await ProductModel.aggregate(pipeline).exec();
-    return result.total || 0;
+    return result?.total || 0;
   }
 
-  async create(product: ToPersistProduct): Promise<ProductEntity> {
-    const createdProduct = await ProductModel.create(product);
+  async create(
+    product: ToPersistProduct,
+    userId: string
+  ): Promise<ProductEntity> {
+    const createdProduct = await ProductModel.create({ ...product, userId });
     return createdProduct;
   }
 

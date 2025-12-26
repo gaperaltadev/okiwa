@@ -12,8 +12,12 @@ export type PostCreateProductResponse = ProductEntity;
 
 export async function POST(request: Request) {
   try {
-    const isValid = await ValidateRequestToken(request);
+    const { isValid, userData } = await ValidateRequestToken(request);
     if (!isValid) {
+      return Response.json({ message: "No autorizado" }, { status: 401 });
+    }
+
+    if (!userData?.id) {
       return Response.json({ message: "No autorizado" }, { status: 401 });
     }
 
@@ -22,7 +26,10 @@ export async function POST(request: Request) {
     const body: PostCreateProductRequestBody = await request.json();
 
     const repo = new ProductRepository();
-    const createdProduct: PostCreateProductResponse = await repo.create(body);
+    const createdProduct: PostCreateProductResponse = await repo.create(
+      body,
+      userData?.id
+    );
 
     return Response.json(createdProduct);
   } catch (err) {
@@ -51,7 +58,7 @@ export type PutUpdateProductResponse = ProductEntity;
 
 export async function PUT(request: Request) {
   try {
-    const isValid = await ValidateRequestToken(request);
+    const { isValid } = await ValidateRequestToken(request);
     if (!isValid) {
       return Response.json({ message: "No autorizado" }, { status: 401 });
     }
@@ -86,7 +93,7 @@ export type DeleteProductRequestBody = {
 
 export async function DELETE(request: Request) {
   try {
-    const isValid = await ValidateRequestToken(request);
+    const { isValid } = await ValidateRequestToken(request);
     if (!isValid) {
       return Response.json({ message: "No autorizado" }, { status: 401 });
     }

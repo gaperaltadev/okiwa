@@ -2,7 +2,7 @@ import { ListParams } from "@/app/common/types";
 import { ProductEntity } from "./Product.entity";
 
 export interface IProductRepository {
-  create(product: ProductEntity): Promise<ProductEntity>;
+  create(product: ProductEntity, userId: string): Promise<ProductEntity>;
 
   getById(id: string): Promise<ProductEntity | null>;
 

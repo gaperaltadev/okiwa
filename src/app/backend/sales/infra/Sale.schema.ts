@@ -5,6 +5,7 @@ import { SaleStatusTypes } from "../domain/Sale.entity";
 const SaleSchema = new Schema<SaleDocument>(
   {
     clientId: { type: Schema.Types.ObjectId, required: true, ref: "client" },
+    vendorId: { type: Schema.Types.String, required: true },
     saleArticles: [
       {
         articleId: {

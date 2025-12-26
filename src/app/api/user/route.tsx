@@ -31,7 +31,7 @@ export interface GetUsersResponse {
 
 export async function GET(request: Request) {
   try {
-    const isValid = await ValidateRequestToken(request);
+    const { isValid } = await ValidateRequestToken(request);
     if (!isValid) {
       return Response.json({ message: "No autorizado" }, { status: 401 });
     }
@@ -56,7 +56,7 @@ export interface CreateUserResponse {
 
 export async function POST(request: Request) {
   try {
-    const isValid = await ValidateRequestToken(request);
+    const { isValid } = await ValidateRequestToken(request);
     if (!isValid) {
       return Response.json({ message: "No autorizado" }, { status: 401 });
     }
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
 
 export async function DELETE(request: Request) {
   try {
-    const isValid = await ValidateRequestToken(request);
+    const { isValid } = await ValidateRequestToken(request);
     if (!isValid) {
       return Response.json({ message: "No autorizado" }, { status: 401 });
     }

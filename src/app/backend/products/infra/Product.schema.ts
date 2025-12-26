@@ -4,6 +4,7 @@ import { ProductDocument } from "./Product.document";
 const ProductSchema = new Schema<ProductDocument>(
   {
     name: { type: String, required: true },
+    userId: { type: String, required: true },
     sku: { type: String, required: false },
     minStock: { type: Number, required: false },
     currentStock: { type: Number, required: false },

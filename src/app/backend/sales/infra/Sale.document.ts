@@ -9,6 +9,7 @@ export interface ArticleDocument extends Document {
 }
 
 export interface SaleDocument extends Document {
+  vendorId: string;
   clientId: Types.ObjectId;
   saleArticles: ArticleDocument[];
   status: SaleStatusTypes;
@@ -21,6 +22,7 @@ export interface SaleDocument extends Document {
 }
 
 export interface PopulatedSaleDocument extends Document {
+  vendorId: string;
   client: {
     _id: Types.ObjectId;
     name: string;

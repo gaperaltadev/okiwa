@@ -1,16 +1,25 @@
 import { adminAuth } from "@/lib/firebase/admin";
 
-export async function ValidateRequestToken(request: Request) {
+export async function ValidateRequestToken(
+  request: Request
+): Promise<{ isValid: boolean; userData?: { id: string; name?: string } }> {
   const authToken = request.headers.get("authorization");
 
   if (!authToken) {
-    return false;
+    return { isValid: false };
   }
 
   try {
-    await adminAuth.verifyIdToken(authToken.slice(7));
-    return true;
+    const verifiedToken = await adminAuth.verifyIdToken(authToken.slice(7));
+
+    return {
+      isValid: true,
+      userData: {
+        id: verifiedToken.user_id,
+        name: verifiedToken.name,
+      },
+    };
   } catch (err) {
-    return false;
+    return { isValid: false };
   }
 }

@@ -7,6 +7,7 @@ export class SaleMapper {
 
     return {
       id: raw._id!.toString(),
+      vendorId: data.vendorId,
       saleArticles: data.saleArticles,
       client: {
         id: data.client._id,
@@ -27,8 +28,9 @@ export class SaleMapper {
   static toPersistence(sale: SaleEntity): SaleDocument {
     return {
       _id: sale.id,
-      //   articles: sale.articles,
-      //   clientId: sale.clientId,
+      vendorId: sale.vendorId,
+      // articles: sale.articles,
+      // clientId: sale.clientId,
       status: sale.status,
       deadline: sale.deadline,
       notes: sale.notes,

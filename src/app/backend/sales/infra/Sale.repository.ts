@@ -12,8 +12,8 @@ import { ListParams, QueryFilter } from "@/app/common/types";
 export class SaleRepository implements ISaleRepository {
   constructor() {}
 
-  async create(sale: ToPersistSale): Promise<SaleEntity> {
-    const createdSale = await SaleModel.create(sale);
+  async create(sale: ToPersistSale, vendorId: string): Promise<SaleEntity> {
+    const createdSale = await SaleModel.create({ ...sale, vendorId });
     return createdSale;
   }
 
@@ -29,7 +29,7 @@ export class SaleRepository implements ISaleRepository {
       { $count: "total" },
     ];
     const [result] = await SaleModel.aggregate(pipeline).exec();
-    return result.total || 0;
+    return result?.total || 0;
   }
 
   async find(params: ListParams): Promise<PopulatedSaleEntity[]> {
