@@ -40,21 +40,23 @@ export const Navbar = () => {
   );
 
   return (
-    <div className={`${pathname === "/sign-in" ? "hidden" : "flex"}`}>
-      <div className="flex gap-2 p-4">
-        {paths.map((path, idx) => (
-          <Link key={`${path.label}-${idx}`} href={path.href}>
-            <div
-              className={`grid gap-2 rounded-xl px-4 py-2 ${
-                pathname === path.href ? "bg-black text-white" : ""
-              }`}
-            >
-              {path.icon}
-              <p className="font-bold text-lg">{path.label}</p>
-            </div>
-          </Link>
-        ))}
-      </div>
+    <div
+      className={`${
+        pathname === "/sign-in" ? "hidden" : "flex"
+      } w-screen gap-2 p-4 justify-center items-center`}
+    >
+      {paths.map((path, idx) => (
+        <Link key={`${path.label}-${idx}`} href={path.href}>
+          <div
+            className={`grid gap-2 rounded-xl px-4 py-2 ${
+              pathname === path.href ? "bg-black text-white" : ""
+            }`}
+          >
+            {path.icon}
+            <p className="font-bold text-lg">{path.label}</p>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 };

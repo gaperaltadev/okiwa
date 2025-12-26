@@ -10,7 +10,7 @@ const TopBar = () => {
     <div
       className={`${
         pathname === "/sign-in" ? "hidden" : "flex"
-      } justify-between items-center p-4 border-b`}
+      } justify-between items-center p-4 border-b w-screen`}
     >
       <Breadcrumb />
       <ProfileAvatar />

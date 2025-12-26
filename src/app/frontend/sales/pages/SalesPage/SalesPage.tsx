@@ -81,7 +81,7 @@ const SalesPage = () => {
   }, [fetchSales, limit]);
 
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex w-full flex-col gap-6">
       <PageHeader
         title="Ventas"
         subtitle="Gestiona tus ventas fácilmente"

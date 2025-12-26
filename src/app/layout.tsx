@@ -24,7 +24,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <AuthProvider>
           <main className="grid grid-rows-[auto_1fr_auto] h-screen">
             <TopBar />
-            <div className="p-4 max-w-screen">{children}</div>
+            <div className="p-4 max-w-screen overflow-y-auto">{children}</div>
             <Navbar />
           </main>
         </AuthProvider>

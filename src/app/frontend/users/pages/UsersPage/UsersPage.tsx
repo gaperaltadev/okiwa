@@ -70,7 +70,7 @@ const UsersPage = () => {
   );
 
   return (
-    <Box className="flex flex-col gap-6">
+    <Box className="flex w-full flex-col gap-6">
       <PageHeader
         title="Usuarios"
         subtitle="Gestiona los usuarios de la aplicación"
