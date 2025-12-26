@@ -1,11 +1,15 @@
 "use client";
 
 import { auth } from "@/lib/firebase/client";
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Button, TextField, Typography } from "@mui/material";
 import { FirebaseError } from "firebase-admin";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
+import toast from "react-hot-toast";
 
 const SignInPage = () => {
   const router = useRouter();
@@ -36,36 +40,71 @@ const SignInPage = () => {
     }
   }, [email, password, router]);
 
+  const handleResetPassword = useCallback(async () => {
+    try {
+      setLoading(true);
+      await sendPasswordResetEmail(auth, email);
+      toast.success("Correo de recuperación enviado");
+    } catch (error) {
+      const { code } = error as FirebaseError;
+
+      switch (code) {
+        case "auth/invalid-credential":
+          setError("Credenciales inválidas");
+          break;
+        case "auth/missing-email":
+          setError("Por favor ingresa un email");
+          break;
+        case "auth/invalid-email":
+          setError("Email inválido");
+          break;
+        case "auth/user-not-found":
+          setError("Usuario no encontrado");
+          break;
+        default:
+          setError("Error desconocido");
+          break;
+      }
+    } finally {
+      setLoading(false);
+    }
+  }, [email]);
+
   return (
-    <Box className="grid justify-center items-center gap-6">
-      <Typography variant="h4">Iniciar sesión</Typography>
-      <Box className="flex gap-4">
-        <TextField
-          value={email}
-          type="text"
-          error={!!error}
-          label="Correo"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextField
-          value={password}
-          type="password"
-          error={!!error}
-          label="Contraseña"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </Box>
-      {error && (
-        <Typography color="error" variant="body2">
-          {error}
-        </Typography>
-      )}
-      <Box className="flex gap-2">
-        <Button loading={loading} onClick={handleSubmit}>
-          Iniciar sesión
-        </Button>
-      </Box>
-    </Box>
+    <div className="grid justify-center items-center h-full">
+      <div className="bg-white p-6 rounded-2xl grid gap-4">
+        <span className="text-3xl font-bold">Iniciar sesión</span>
+        <div className="flex gap-4">
+          <TextField
+            value={email}
+            type="text"
+            error={!!error}
+            label="Correo"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <TextField
+            value={password}
+            type="password"
+            error={!!error}
+            label="Contraseña"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        {error && (
+          <Typography color="error" variant="body2">
+            {error}
+          </Typography>
+        )}
+        <div className="flex gap-2">
+          <Button loading={loading} onClick={handleResetPassword}>
+            Recuperar contraseña
+          </Button>
+          <Button loading={loading} onClick={handleSubmit}>
+            Iniciar sesión
+          </Button>
+        </div>
+      </div>
+    </div>
   );
 };
 

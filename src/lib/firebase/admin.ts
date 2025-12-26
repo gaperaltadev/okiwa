@@ -1,11 +1,16 @@
 import * as admin from "firebase-admin";
 
+const privateKey = process.env.NEXT_PUBLIC_FIREBASE_ADMIN_PRIVATE_KEY?.replace(
+  /\\n/g,
+  "\n"
+);
+
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
-      privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY,
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      projectId: process.env.FIREBASE_PROJECT_ID,
+      privateKey: privateKey,
+      clientEmail: process.env.NEXT_PUBLIC_FIREBASE_CLIENT_EMAIL,
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
     }),
   });
 }

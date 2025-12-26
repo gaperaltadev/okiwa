@@ -1,10 +1,5 @@
-import { ProtectedRoute } from "@/app/common/ProtectedRoute";
-import { SalesPage } from "@/frontend/orders/pages/SalesPage";
+import { SalesPage } from "@/app/frontend/sales/pages/SalesPage";
 
-const Page = () => (
-  <ProtectedRoute>
-    <SalesPage />
-  </ProtectedRoute>
-);
+const Page = () => <SalesPage />;
 
 export default Page;
