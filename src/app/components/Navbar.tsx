@@ -23,17 +23,17 @@ export const Navbar = () => {
       {
         label: "Productos",
         icon: <LocalOfferOutlined fontSize="small" />,
-        href: "/dashboard/products",
+        href: "/products",
       },
       {
         label: "Ventas",
         icon: <TrendingUpOutlined fontSize="small" />,
-        href: "/dashboard/sales",
+        href: "/sales",
       },
       {
         label: "Usuarios",
         icon: <GroupOutlined fontSize="small" />,
-        href: "/admin/users",
+        href: "/users",
       },
     ],
     []
