@@ -1,17 +1,9 @@
 "use client";
-import { auth } from "@/lib/firebase/client";
-import { LogoutOutlined } from "@mui/icons-material";
-import { Button } from "@mui/material";
-import { signOut } from "firebase/auth";
 import { usePathname } from "next/navigation";
-import { useCallback } from "react";
+import { ProfileAvatar } from "./ProfileAvatar";
 
 const TopBar = () => {
   const pathname = usePathname();
-
-  const handleLogOut = useCallback(() => {
-    signOut(auth);
-  }, []);
 
   return (
     <div
@@ -20,14 +12,7 @@ const TopBar = () => {
       } justify-between items-center p-4 border-b`}
     >
       <span className="text-2xl font-bold">Administración</span>
-      <Button
-        color="inherit"
-        size="small"
-        startIcon={<LogoutOutlined />}
-        onClick={handleLogOut}
-      >
-        Cerrar sesión
-      </Button>
+      <ProfileAvatar />
     </div>
   );
 };
