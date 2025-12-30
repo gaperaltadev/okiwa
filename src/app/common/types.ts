@@ -12,6 +12,7 @@ export interface ListParams {
     filters?: QueryFilter[];
     sort?: Record<string, 1 | -1>;
   };
+  onlyAvailable?: boolean;
 }
 
 export type QueryFilter = {

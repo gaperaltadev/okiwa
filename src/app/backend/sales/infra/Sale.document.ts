@@ -8,6 +8,14 @@ export interface ArticleDocument extends Document {
   total: number;
 }
 
+export interface AggregatedArticle {
+  articleId: Types.ObjectId;
+  articleName?: string;
+  quantity: number;
+  unitPrice: number;
+  total: number;
+}
+
 export interface SaleDocument extends Document {
   vendorId: string;
   clientId: Types.ObjectId;
@@ -21,7 +29,8 @@ export interface SaleDocument extends Document {
   updatedAt: number;
 }
 
-export interface PopulatedSaleDocument extends Document {
+export interface AggregatedSale {
+  _id: Types.ObjectId;
   vendorId: string;
   client: {
     _id: Types.ObjectId;
@@ -30,7 +39,7 @@ export interface PopulatedSaleDocument extends Document {
     phone?: string;
     address?: string;
   };
-  saleArticles: ArticleDocument[];
+  saleArticles: AggregatedArticle[];
   status: SaleStatusTypes;
   deleted?: boolean;
   notes?: string;

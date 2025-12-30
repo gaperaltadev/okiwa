@@ -5,9 +5,11 @@ import { Autocomplete, Button, TextField, Typography } from "@mui/material";
 const AddArticleForm = ({
   handleSuccess,
   onClose,
+  existingArticles,
 }: {
   handleSuccess: (article: SaleArticle) => void;
   onClose?: () => void;
+  existingArticles?: SaleArticle[];
 }) => {
   const {
     products,
@@ -18,6 +20,7 @@ const AddArticleForm = ({
     handleSubmit,
   } = useAddArticleForm({
     handleSuccess,
+    existingArticles,
   });
 
   const formatNumber = (value: number) => {
@@ -89,13 +92,17 @@ const AddArticleForm = ({
             <TextField
               label="Cantidad"
               error={!!error?.message}
-              helperText={error ? error.message : ""}
+              helperText={
+                error
+                  ? error.message
+                  : selectedProduct
+                  ? `Stock disponible: ${selectedProduct.currentStock || 0}`
+                  : ""
+              }
               slotProps={{ inputLabel: { shrink: true } }}
               onChange={(e) => {
-                // remove dots from the string
                 const value = e.target.value.replace(/\./g, "");
 
-                // allow only numbers
                 if (RegExp(/^\d*$/).test(value)) {
                   return field.onChange(Number(value));
                 }

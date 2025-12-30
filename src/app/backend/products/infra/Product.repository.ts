@@ -9,10 +9,17 @@ export class ProductRepository implements IProductRepository {
   constructor() {}
 
   async count(params: ListParams): Promise<number> {
+    const { onlyAvailable } = params;
     const queryFilter = params.queryFilter || {};
 
+    const matchFilters = this.buildFilters(queryFilter.filters);
+
+    if (onlyAvailable) {
+      matchFilters.currentStock = { $gt: 0 };
+    }
+
     const pipeline: PipelineStage[] = [
-      { $match: this.buildFilters(queryFilter.filters) },
+      { $match: matchFilters },
       { $count: "total" },
     ];
     const [result] = await ProductModel.aggregate(pipeline).exec();
@@ -32,14 +39,21 @@ export class ProductRepository implements IProductRepository {
   }
 
   async find(params: ListParams): Promise<ProductEntity[]> {
-    const { page = 1, limit = 10 } = params;
+    const { page = 1, limit = 10, onlyAvailable } = params;
     const skip = (page - 1) * limit;
 
     const queryFilter = params.queryFilter || {};
     const sort = params.queryFilter.sort || { createdAt: -1 };
 
+    const matchFilters = this.buildFilters(queryFilter.filters);
+
+    // Add stock filter if onlyAvailable is true
+    if (onlyAvailable) {
+      matchFilters.currentStock = { $gt: 0 };
+    }
+
     const pipeline: PipelineStage[] = [
-      { $match: this.buildFilters(queryFilter.filters) },
+      { $match: matchFilters },
       { $sort: sort },
       { $skip: skip },
       { $limit: limit },

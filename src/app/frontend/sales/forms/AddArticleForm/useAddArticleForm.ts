@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useMemo } from "react";
 import { ProductEntity } from "../../../../backend/products/domain/Product.entity";
 import toast from "react-hot-toast";
-import { validationSchema } from "./validationSchema";
+import { createValidationSchema } from "./createValidationSchema";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,10 +21,12 @@ export type SaleArticle = {
 
 type UseAddArticleFormProps = {
   handleSuccess: (article: SaleArticle) => void;
+  existingArticles?: SaleArticle[];
 };
 
 export const useAddArticleForm = ({
   handleSuccess,
+  existingArticles,
 }: UseAddArticleFormProps) => {
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -36,7 +38,7 @@ export const useAddArticleForm = ({
   async function fetchProductOptions() {
     try {
       setLoading(true);
-      const response = await ProductsApi.postProductsList({
+      const response = await ProductsApi.postAvailableProductsList({
         page: 1,
         limit: 1000,
         queryFilter: {},
@@ -58,6 +60,22 @@ export const useAddArticleForm = ({
       fetchProductOptions();
     }
   }, [products]);
+
+  // Filter out products that are already in the articles list
+  const availableProducts = useMemo(() => {
+    if (!products) return [];
+    if (!existingArticles || existingArticles.length === 0) return products;
+
+    const existingProductIds = new Set(
+      existingArticles.map((article) => article.article.id)
+    );
+
+    return products.filter((product) => !existingProductIds.has(product.id));
+  }, [products, existingArticles]);
+
+  const validationSchema = useMemo(() => {
+    return createValidationSchema(availableProducts);
+  }, [availableProducts]);
 
   type ArticleFormType = z.infer<typeof validationSchema>;
 
@@ -102,7 +120,7 @@ export const useAddArticleForm = ({
     productQuantity,
     productUnitPrice,
     selectedProduct,
-    products,
+    products: availableProducts,
     loading,
     control,
     values,

@@ -1,27 +1,40 @@
 import { SaleEntity, PopulatedSaleEntity } from "../domain/Sale.entity";
-import { PopulatedSaleDocument, SaleDocument } from "./Sale.document";
+import {
+  SaleDocument,
+  AggregatedSale,
+  AggregatedArticle,
+} from "./Sale.document";
 
 export class SaleMapper {
-  static toDomain(raw: PopulatedSaleDocument): PopulatedSaleEntity {
-    const data = typeof raw.toJSON === "function" ? raw.toJSON() : raw;
-
+  static toDomain(raw: AggregatedSale): PopulatedSaleEntity {
+    console.log("mapping sale ", { rawString: JSON.stringify(raw) });
     return {
-      id: raw._id!.toString(),
-      vendorId: data.vendorId,
-      saleArticles: data.saleArticles,
+      id: raw._id?.toString() || "",
+      vendorId: raw.vendorId,
+      saleArticles: (raw.saleArticles || []).map(
+        (article: AggregatedArticle) => ({
+          article: {
+            id: article.articleId?.toString() || "",
+            name: article.articleName || "",
+          },
+          quantity: article.quantity,
+          unitPrice: article.unitPrice || 0,
+          total: article.total || 0,
+        })
+      ),
       client: {
-        id: data.client._id,
-        name: data.client.name,
-        email: data.client.email,
-        phone: data.client.phone,
-        address: data.client.address,
+        id: raw.client?._id?.toString() || "",
+        name: raw.client?.name || "",
+        email: raw.client?.email,
+        phone: raw.client?.phone,
+        address: raw.client?.address,
       },
-      status: data.status,
-      deadline: data.deadline,
-      notes: data.notes,
-      total: data.total,
-      createdAt: data.createdAt,
-      updatedAt: data.updatedAt,
+      status: raw.status,
+      deadline: raw.deadline,
+      notes: raw.notes,
+      total: raw.total || 0,
+      createdAt: raw.createdAt,
+      updatedAt: raw.updatedAt,
     };
   }
 
@@ -38,9 +51,7 @@ export class SaleMapper {
     } as SaleDocument;
   }
 
-  static toDomainArray(
-    rawArray: PopulatedSaleDocument[]
-  ): PopulatedSaleEntity[] {
+  static toDomainArray(rawArray: AggregatedSale[]): PopulatedSaleEntity[] {
     return rawArray.map((item) => this.toDomain(item));
   }
 }

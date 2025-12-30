@@ -15,8 +15,8 @@ const SaleSchema = new Schema<SaleDocument>(
         },
         articleName: { type: String, required: false },
         quantity: { type: Number, required: true, default: 1 },
-        unitPrice: { type: Schema.Types.Decimal128, required: true },
-        total: { type: Schema.Types.Decimal128, required: false },
+        unitPrice: { type: Number, required: true },
+        total: { type: Number, required: false },
       },
     ],
     status: {
