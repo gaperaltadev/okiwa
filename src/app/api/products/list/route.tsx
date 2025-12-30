@@ -33,6 +33,7 @@ export async function POST(request: Request) {
           { operator: "eq", field: "userId", value: userData?.id },
         ],
       },
+      onlyAvailable: requestBody.onlyAvailable,
     };
 
     const products = await repo.find(listParams);

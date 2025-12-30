@@ -5,7 +5,7 @@ import { DeleteProductRequestBody } from "@/app/api/products/route";
 const deleteProduct = async (
   productId: string
 ): Promise<AxiosResponse<DeleteProductRequestBody>> => {
-  return await instance.delete<DeleteProductRequestBody>("/api/product", {
+  return await instance.delete<DeleteProductRequestBody>("/api/products", {
     data: { productId },
   });
 };

@@ -8,6 +8,7 @@ type AddArticleModalProps = {
   isOpen: boolean;
   onClose: () => void;
   handleSuccess: (article: SaleArticle) => void;
+  existingArticles?: SaleArticle[];
 };
 
 const AddArticleModal = ({
@@ -45,7 +46,11 @@ const AddArticleModal = ({
         {formSuccess?.article ? (
           successMessage()
         ) : (
-          <AddArticleForm onClose={onClose} handleSuccess={onSuccess} />
+          <AddArticleForm
+            onClose={onClose}
+            handleSuccess={onSuccess}
+            existingArticles={props.existingArticles}
+          />
         )}
       </Box>
     </Modal>

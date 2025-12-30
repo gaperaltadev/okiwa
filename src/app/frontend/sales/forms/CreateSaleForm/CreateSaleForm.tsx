@@ -310,6 +310,12 @@ const CreateSaleForm = ({ handleSuccess, onClose }: CreateSaleFormProps) => {
         isOpen={addArticleModalState.isOpen}
         onClose={handleCloseAddArticleModal}
         handleSuccess={handleSuccessAddArticle}
+        existingArticles={fields.map((field) => ({
+          article: field.article,
+          quantity: field.quantity,
+          unitPrice: field.unitPrice,
+          total: field.total || 0,
+        }))}
       />
       <CreateClientModal
         isOpen={createClientModalState.isOpen}

@@ -9,14 +9,17 @@ import {
 import {
   Card,
   CircularProgress,
+  IconButton,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
 } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 import { StatusChip } from "../../shared/components/StatusChip";
 import { CreateSaleModal } from "../../modals/CreateSaleModal";
+import { DeleteSaleModal } from "../../modals/DeleteSaleModal";
 import PageHeader from "@/app/frontend/shared/components/PageHeader/PageHeader";
 import { SalesApi } from "../..";
 import { TablePagination } from "@/app/components/TablePagination";
@@ -37,6 +40,10 @@ const SalesPage = () => {
 
   const [createSaleModalState, setCreateSaleModalState] = useState<
     ModalState<SaleEntity>
+  >({ isOpen: false });
+
+  const [deleteSaleModalState, setDeleteSaleModalState] = useState<
+    ModalState<PopulatedSaleEntity>
   >({ isOpen: false });
 
   const fetchSales = useCallback(async (page: number, limit: number) => {
@@ -80,6 +87,14 @@ const SalesPage = () => {
     fetchSales(1, limit);
   }, [fetchSales, limit]);
 
+  const handleOpenDeleteModal = useCallback((sale: PopulatedSaleEntity) => {
+    setDeleteSaleModalState({ isOpen: true, data: sale });
+  }, []);
+
+  const handleCloseDeleteModal = useCallback(() => {
+    setDeleteSaleModalState({ isOpen: false });
+  }, []);
+
   return (
     <div className="flex w-full flex-col gap-6">
       <PageHeader
@@ -99,6 +114,7 @@ const SalesPage = () => {
                   <TableCell>Cliente</TableCell>
                   <TableCell>Estado</TableCell>
                   <TableCell>Fecha</TableCell>
+                  <TableCell>Acciones</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -112,6 +128,15 @@ const SalesPage = () => {
                       <TableCell>
                         {sale?.createdAt &&
                           new Date(sale?.createdAt).toLocaleDateString()}
+                      </TableCell>
+                      <TableCell>
+                        <IconButton
+                          onClick={() => handleOpenDeleteModal(sale)}
+                          color="error"
+                          size="small"
+                        >
+                          <Delete />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -131,6 +156,12 @@ const SalesPage = () => {
         isOpen={createSaleModalState.isOpen}
         handleSuccess={handleSuccess}
         onClose={handleCreateSaleModal}
+      />
+      <DeleteSaleModal
+        isOpen={deleteSaleModalState.isOpen}
+        sale={deleteSaleModalState.data}
+        handleSuccess={handleSuccess}
+        onClose={handleCloseDeleteModal}
       />
     </div>
   );

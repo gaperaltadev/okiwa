@@ -6,11 +6,9 @@ export interface ISaleRepository {
 
   getById(id: string): Promise<SaleEntity | null>;
 
-  update(id: string, data: SaleEntity): Promise<SaleEntity>;
-
   find(params: ListParams): Promise<PopulatedSaleEntity[]>;
 
   count(params: ListParams): Promise<number>;
 
-  delete(id: string): Promise<void>;
+  delete(id: string, restoreStock: boolean): Promise<void>;
 }

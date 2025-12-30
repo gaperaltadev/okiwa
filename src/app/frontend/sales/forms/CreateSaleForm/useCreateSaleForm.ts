@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import { SalesApi } from "../..";
 import { ClientsApi } from "@/app/frontend/clients";
 import { ClientEntity } from "../../../../backend/clients/domain/Client.entity";
-import { validationSchema as saleArticleSchema } from "../AddArticleForm/validationSchema";
+import { validationSchema as saleArticleSchema } from "../AddArticleForm/createValidationSchema";
 
 export type SelectOption = {
   value: string;
@@ -29,7 +29,7 @@ export const useCreateSaleForm = ({
   const [total, setTotal] = useState<string>("");
 
   const saleFormSchema = z.object({
-    clientId: z.string(),
+    clientId: z.string().min(1, { message: "Campo requerido" }),
     articles: z
       .array(saleArticleSchema)
       .min(1, { message: "Debe agregar al menos un producto" }),

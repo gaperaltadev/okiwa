@@ -30,7 +30,7 @@ export const createValidationSchema = (products?: ProductEntity[]) => {
 
         if (data.quantity > availableStock) {
           ctx.addIssue({
-            code: z.ZodIssueCode.custom,
+            code: "custom",
             message: `Stock insuficiente. Disponible: ${availableStock}`,
             path: ["quantity"],
           });
