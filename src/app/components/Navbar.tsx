@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 import {
   GroupOutlined,
@@ -9,10 +9,9 @@ import {
   LocalOfferOutlined,
   TrendingUpOutlined,
 } from "@mui/icons-material";
-import { Autocomplete, TextField } from "@mui/material";
+import { Typography } from "@mui/material";
 
 export const Navbar = () => {
-  const router = useRouter();
   const pathname = usePathname();
 
   const paths = useMemo(
@@ -42,33 +41,40 @@ export const Navbar = () => {
   );
 
   return (
-    <div
-      className={`${pathname === "/sign-in" ? "hidden" : "flex"} w-screen p-4`}
+    <nav
+      className={`${
+        pathname === "/sign-in" ? "hidden" : "flex"
+      } fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-inset-bottom z-50 md:static md:border-0 md:bg-transparent`}
     >
-      <div className="md:hidden w-full">
-        <Autocomplete
-          fullWidth
-          options={paths}
-          getOptionLabel={(option) => option.label}
-          onChange={(_, newValue) => router.push(newValue?.href || "/")}
-          value={paths.find((path) => path.href === pathname) || null}
-          renderInput={(params) => <TextField {...params} label="Navegar" />}
-        />
-      </div>
-      <div className="grid-cols-4 gap-2 hidden sm:grid">
+      <div className="flex justify-around items-center w-full px-2 py-3 md:grid md:grid-cols-4 md:gap-4 md:px-4 gap-2">
         {paths.map((path, idx) => (
-          <Link key={`${path.label}-${idx}`} href={path.href}>
+          <Link
+            key={`${path.label}-${idx}`}
+            href={path.href}
+            className="flex-1 md:flex-none"
+          >
             <div
-              className={`grid gap-2 rounded-xl px-4 py-2 ${
-                pathname === path.href ? "bg-black text-white" : "border"
+              className={`flex flex-col items-center justify-center gap-1 rounded-xl p-2 transition-all duration-200 hover:scale-105 md:gap-2 md:p-3 ${
+                pathname === path.href
+                  ? "bg-black text-white shadow-lg"
+                  : "text-gray-600 hover:bg-gray-100 active:bg-gray-200"
               }`}
             >
-              {path.icon}
-              <p className="font-bold text-lg">{path.label}</p>
+              <span className={pathname === path.href ? "scale-110" : ""}>
+                {path.icon}
+              </span>
+              <Typography
+                variant="caption"
+                className={`text-xs font-medium md:text-sm ${
+                  pathname === path.href ? "text-white" : "text-gray-700"
+                }`}
+              >
+                {path.label}
+              </Typography>
             </div>
           </Link>
         ))}
       </div>
-    </div>
+    </nav>
   );
 };
