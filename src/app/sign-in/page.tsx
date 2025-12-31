@@ -73,8 +73,8 @@ const SignInPage = () => {
   return (
     <div className="grid justify-center items-center h-full">
       <div className="bg-white p-6 rounded-2xl grid gap-4">
-        <span className="text-3xl font-bold">Iniciar sesión</span>
-        <div className="flex gap-4">
+        <Typography variant="h5">Iniciar sesión</Typography>
+        <div className="flex flex-col md:flex-row gap-4">
           <TextField
             value={email}
             type="text"
@@ -95,12 +95,22 @@ const SignInPage = () => {
             {error}
           </Typography>
         )}
-        <div className="flex gap-2">
-          <Button loading={loading} onClick={handleResetPassword}>
-            Recuperar contraseña
-          </Button>
-          <Button loading={loading} onClick={handleSubmit}>
+        <div className="flex flex-col md:flex-row gap-2">
+          <Button
+            color="inherit"
+            variant="contained"
+            loading={loading}
+            onClick={handleSubmit}
+          >
             Iniciar sesión
+          </Button>
+          <Button
+            color="warning"
+            variant="contained"
+            loading={loading}
+            onClick={handleResetPassword}
+          >
+            Recuperar contraseña
           </Button>
         </div>
       </div>

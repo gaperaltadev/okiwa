@@ -41,11 +41,7 @@ export const Navbar = () => {
   );
 
   return (
-    <nav
-      className={`${
-        pathname === "/sign-in" ? "hidden" : "flex"
-      } fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-inset-bottom z-50 md:static md:border-0 md:bg-transparent`}
-    >
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area-inset-bottom z-50 md:static md:border-0 md:bg-transparent">
       <div className="flex justify-around items-center w-full px-2 py-3 md:grid md:grid-cols-4 md:gap-4 md:px-4 gap-2">
         {paths.map((path, idx) => (
           <Link

@@ -3,8 +3,7 @@ import { Nunito } from "next/font/google";
 import { AuthProvider } from "../context/AuthContext";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-import TopBar from "./components/TopBar";
-import { Navbar } from "./components/Navbar";
+import { AppLayout } from "./components/AppLayout";
 
 const nunito = Nunito({
   subsets: ["latin"],
@@ -22,11 +21,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
       <body className={`${nunito.className} antialiased`}>
         <Toaster />
         <AuthProvider>
-          <main className="grid grid-rows-[auto_1fr_auto] h-screen">
-            <TopBar />
-            <div className="p-4 max-w-screen overflow-y-auto">{children}</div>
-            <Navbar />
-          </main>
+          <AppLayout>{children}</AppLayout>
         </AuthProvider>
       </body>
     </html>

@@ -44,7 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   if (loading)
     return (
-      <div className="h-full grid items-center justify-center">
+      <div className="h-screen grid justify-center items-center">
         <CircularProgress size={"80px"} />
       </div>
     );
